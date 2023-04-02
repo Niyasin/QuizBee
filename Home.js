@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
-import app from './firebaseConfig'
-import {collection, getDocs, getFirestore} from 'firebase/firestore'
+import { useContext } from 'react';
 import { StyleSheet, View,SafeAreaView,ScrollView} from 'react-native';
 import {Button, Card,Text} from 'react-native-paper';
+import { createContext, useEffect, useState } from 'react';
+import app from './firebaseConfig'
+import {collection, getDocs, getFirestore} from 'firebase/firestore'
+import { useFocusEffect } from '@react-navigation/native';
 
 const Home =({navigation})=>{
     const [quizes,setQuizes] = useState([]);
-    const db = getFirestore(app);
+  
+  const db = getFirestore(app);
 
     const getData=async()=>{
       let d=[];
@@ -16,10 +19,12 @@ const Home =({navigation})=>{
       });
       setQuizes(d);
     }
-  
+    useFocusEffect(()=>{
+        getData();
+    })
     useEffect(()=>{
       getData();
-    },[]);
+    },[navigation]);
 
     return(
       <SafeAreaView style={styles.container}>
@@ -31,7 +36,7 @@ const Home =({navigation})=>{
           <ScrollView style={styles.cardContainer}>
             {quizes.map((e,i)=>{
               return(
-                <Card key={i}>
+                <Card key={i} style={{marginBottom:15}}>
                   <Card.Content>
                     <Text variant="displaySmall" style={{fontWeight:'bold'}}>{e.name}</Text>
                     <Text variant="bodyMedium">{e.desc}</Text>
@@ -39,7 +44,7 @@ const Home =({navigation})=>{
                   </Card.Content>
                 </Card>
               )
-            })}
+            })} 
           </ScrollView>  
       </SafeAreaView>
     )
@@ -60,6 +65,6 @@ const Home =({navigation})=>{
       width:'100%',
     },
     cardContainer:{
-      width:'90%',
+      width:'90%'
     },
   });

@@ -1,26 +1,47 @@
 import { useRef, useState } from "react";
 import { View,StyleSheet,SafeAreaView,ScrollView} from "react-native";
 import {Button, Card,Text,TextInput,RadioButton,} from 'react-native-paper';
+import {collection,getFirestore,addDoc} from 'firebase/firestore'
+import app from './firebaseConfig'
 
-export default function Create({close}){
+export default function Create({navigation,reload}){
     const [title,setTitle]=useState('');
     const [desc,setDesc]=useState('');
-    const [time,setTime]=useState('');
+    const [time,setTime]=useState(null);
     const [questions,setQuestions]=useState([]);
-    const scrollView = useRef(null)
+    const scrollView = useRef(null);
+
+    const db = getFirestore(app);
+
+    const send =async()=>{
+        if(title.length && time && questions.length){
+            try{
+                await addDoc(collection(db,'quizes'),{
+                    name:title,
+                    desc,
+                    time,
+                    questions,
+                });
+            }catch(e){
+            }
+            reload();
+            navigation.navigate('Home');
+        }
+        console.log(title,time);
+    }
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView ref={scrollView} onContentSizeChange={()=>{scrollView.current.scrollToEnd({animated:true})}}>
-                <TextInput mode="outlined" label="Title" onChange={t=>{setTitle(t)}}/>
-                <TextInput mode="outlined" label="Total Time" keyboardType="numeric" onChange={t=>{setTime(t)}}/>
-                <TextInput mode="outlined" label="Description" numberOfLines={10} multiline={true} onChange={t=>{setDesc(t)}}/>
+                <TextInput mode="outlined" label="Title" onChangeText={t=>{setTitle(t)}}/>
+                <TextInput mode="outlined" label="Total Time" keyboardType="numeric" onChangeText={t=>{setTime(t)}}/>
+                <TextInput mode="outlined" label="Description" numberOfLines={10} multiline={true} onChangeText={t=>{setDesc(t)}}/>
                 <Text variant="headlineLarge" style={{paddingVertical:10,fontWeight:'bold'}}>Questions</Text>
                 {questions.map((e,i)=>{
                     return(
                     <Card mode="outlined" style={{marginVertical:10}}>
                         <Card.Title title={'Q'+(i+1)}/>
                         <Card.Content>
-                            <TextInput mode="outlined" label="Question" onChange={t=>{
+                            <TextInput mode="outlined" label="Question" onChangeText={t=>{
                                 let q=[...questions];
                                 q[i].name=t;
                                 setQuestions(q)}
@@ -34,7 +55,7 @@ export default function Create({close}){
                             }}>
                                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                                     <RadioButton value={0}/>
-                                    <TextInput style={{width:'88%'}} mode="outlined" label="A" onChange={t=>{
+                                    <TextInput style={{width:'88%'}} mode="outlined" label="A" onChangeText={t=>{
                                         let q=[...questions];
                                         q[i].opt[0]=t;
                                         setQuestions(q)}
@@ -42,7 +63,7 @@ export default function Create({close}){
                                 </View>
                                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                                     <RadioButton value={1}/>
-                                    <TextInput style={{width:'88%'}} mode="outlined" label="B" onChange={t=>{
+                                    <TextInput style={{width:'88%'}} mode="outlined" label="B" onChangeText={t=>{
                                         let q=[...questions];
                                         q[i].opt[1]=t;
                                         setQuestions(q)}
@@ -50,7 +71,7 @@ export default function Create({close}){
                                 </View>
                                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                                     <RadioButton value={2}/>
-                                    <TextInput style={{width:'88%'}} mode="outlined" label="C" onChange={t=>{
+                                    <TextInput style={{width:'88%'}} mode="outlined" label="C" onChangeText={t=>{
                                         let q=[...questions];
                                         q[i].opt[1]=t;
                                         setQuestions(q)}
@@ -58,7 +79,7 @@ export default function Create({close}){
                                 </View>
                                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                                     <RadioButton value={3}/>
-                                    <TextInput style={{width:'88%'}} mode="outlined" label="D" onChange={t=>{
+                                    <TextInput style={{width:'88%'}} mode="outlined" label="D" onChangeText={t=>{
                                         let q=[...questions];
                                         q[i].opt[2]=t;
                                         setQuestions(q)}
@@ -83,7 +104,7 @@ export default function Create({close}){
                     }])
                 }}>Add Question</Button>
 
-                <Button mode="contained" style={{marginVertical:20}} onPress={()=>{}}>Submit</Button>
+                <Button mode="contained" style={{marginVertical:20}} onPress={()=>{send()}}>Submit</Button>
                 
             </ScrollView>
         </SafeAreaView>
