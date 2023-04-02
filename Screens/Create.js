@@ -2,9 +2,9 @@ import { useRef, useState } from "react";
 import { View,StyleSheet,SafeAreaView,ScrollView} from "react-native";
 import {Button, Card,Text,TextInput,RadioButton,} from 'react-native-paper';
 import {collection,getFirestore,addDoc} from 'firebase/firestore'
-import app from './firebaseConfig'
+import app from '../firebaseConfig'
 
-export default function Create({navigation,reload}){
+export default function Create({navigation}){
     const [title,setTitle]=useState('');
     const [desc,setDesc]=useState('');
     const [time,setTime]=useState(null);
@@ -24,11 +24,11 @@ export default function Create({navigation,reload}){
                 });
             }catch(e){
             }
-            reload();
             navigation.navigate('Home');
         }
         console.log(title,time);
     }
+    
     return(
         <SafeAreaView style={styles.container}>
             <ScrollView ref={scrollView} onContentSizeChange={()=>{scrollView.current.scrollToEnd({animated:true})}}>

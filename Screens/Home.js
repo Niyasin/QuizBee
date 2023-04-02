@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { StyleSheet, View,SafeAreaView,ScrollView} from 'react-native';
 import {Button, Card,Text} from 'react-native-paper';
 import { createContext, useEffect, useState } from 'react';
-import app from './firebaseConfig'
+import app from '../firebaseConfig'
 import {collection, getDocs, getFirestore} from 'firebase/firestore'
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -36,7 +36,9 @@ const Home =({navigation})=>{
           <ScrollView style={styles.cardContainer}>
             {quizes.map((e,i)=>{
               return(
-                <Card key={i} style={{marginBottom:15}}>
+                <Card key={i} style={{marginBottom:15}} onPress={()=>{
+                  navigation.navigate('Quiz',{quiz:e})
+                }}>
                   <Card.Content>
                     <Text variant="displaySmall" style={{fontWeight:'bold'}}>{e.name}</Text>
                     <Text variant="bodyMedium">{e.desc}</Text>
