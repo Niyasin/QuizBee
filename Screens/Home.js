@@ -15,7 +15,7 @@ const Home =({navigation})=>{
       let d=[];
       let snapshot = await getDocs(collection(db,'quizes'));
       snapshot.forEach(doc=>{
-        d.push(doc.data());
+        d.push({...doc.data(),id:doc.id});
       });
       setQuizes(d);
     }
@@ -30,7 +30,7 @@ const Home =({navigation})=>{
       <SafeAreaView style={styles.container}>
           <View style={styles.buttonContainer}>
             <Button icon="plus" primary="true" mode='contained' buttonColor='#6096B4' style={{flex:1,marginHorizontal:10}} onPress={()=>{navigation.navigate('Create')}}>New</Button>
-            <Button icon="account" primary="true" mode='contained' buttonColor='#6096B4' style={{flex:1,marginHorizontal:10}}>My Quizes</Button>
+            <Button icon="account" primary="true" mode='contained' buttonColor='#6096B4' style={{flex:1,marginHorizontal:10}} onPress={()=>{navigation.navigate('Profile',{data:quizes})}}>My Quizes</Button>
           </View>
           <Text variant="headlineLarge" style={{fontWeight:'bold',alignSelf:'flex-start',margin:'5%'}}>Popular</Text>
           <ScrollView style={styles.cardContainer}>

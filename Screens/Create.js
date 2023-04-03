@@ -3,6 +3,7 @@ import { View,StyleSheet,SafeAreaView,ScrollView} from "react-native";
 import {Button, Card,Text,TextInput,RadioButton,} from 'react-native-paper';
 import {collection,getFirestore,addDoc} from 'firebase/firestore'
 import app from '../firebaseConfig'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Create({navigation}){
     const [title,setTitle]=useState('');
@@ -13,20 +14,41 @@ export default function Create({navigation}){
 
     const db = getFirestore(app);
 
+    const addLocal = async(value) => {
+        try {
+            let d = await getLocal();
+            await AsyncStorage.setItem('@quizes',JSON.stringify([...d,value]))
+        }catch(e){}
+    }
+
+    const getLocal = async()=>{
+        try{
+          const value = await AsyncStorage.getItem('@quizes')
+          if(value !== null) {
+            console.log(value);
+            return(JSON.parse(value));
+          }else{
+            return([]);
+          }
+        }catch(e) {
+            return([]);
+        }
+    }
+
     const send =async()=>{
         if(title.length && time && questions.length){
             try{
-                await addDoc(collection(db,'quizes'),{
+               let doc= await addDoc(collection(db,'quizes'),{
                     name:title,
                     desc,
                     time,
                     questions,
                 });
+                addLocal(doc.id);
             }catch(e){
             }
             navigation.navigate('Home');
         }
-        console.log(title,time);
     }
     
     return(

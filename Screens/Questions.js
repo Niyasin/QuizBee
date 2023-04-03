@@ -70,6 +70,7 @@ export default function QS({quiz,close}){
                                  >{e}</Button>
                                  )
                                 })}
+                                <Button mode='contained' style={{marginTop:20}} onPress={()=>{ans(-1,quiz.questions[current])}}>Skip</Button>
                 </View>
                 </>}
         </SafeAreaView>
