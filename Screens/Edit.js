@@ -107,9 +107,9 @@ export default function Edit({navigation,route}){
                                 </View>
                                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                                     <RadioButton value={2}/>
-                                    <TextInput style={{width:'88%'}} mode="outlined" label="C" defaultValue={e.opt[3]} onChangeText={t=>{
+                                    <TextInput style={{width:'88%'}} mode="outlined" label="C" defaultValue={e.opt[2]} onChangeText={t=>{
                                         let q=[...questions];
-                                        q[i].opt[1]=t;
+                                        q[i].opt[2]=t;
                                         setQuestions(q)}
                                     }/>
                                 </View>
@@ -117,7 +117,7 @@ export default function Edit({navigation,route}){
                                     <RadioButton value={3}/>
                                     <TextInput style={{width:'88%'}} mode="outlined" label="D" defaultValue={e.opt[3]} onChangeText={t=>{
                                         let q=[...questions];
-                                        q[i].opt[2]=t;
+                                        q[i].opt[3]=t;
                                         setQuestions(q)}
                                         }/>
                                 </View>

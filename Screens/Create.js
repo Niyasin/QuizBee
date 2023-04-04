@@ -104,7 +104,7 @@ export default function Create({navigation}){
                                     <RadioButton value={2}/>
                                     <TextInput style={{width:'88%'}} mode="outlined" label="C" onChangeText={t=>{
                                         let q=[...questions];
-                                        q[i].opt[1]=t;
+                                        q[i].opt[2]=t;
                                         setQuestions(q)}
                                     }/>
                                 </View>
@@ -112,7 +112,7 @@ export default function Create({navigation}){
                                     <RadioButton value={3}/>
                                     <TextInput style={{width:'88%'}} mode="outlined" label="D" onChangeText={t=>{
                                         let q=[...questions];
-                                        q[i].opt[2]=t;
+                                        q[i].opt[3]=t;
                                         setQuestions(q)}
                                     }/>
                                 </View>
