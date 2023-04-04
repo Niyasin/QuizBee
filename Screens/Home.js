@@ -27,7 +27,7 @@ const Home =({navigation})=>{
       <SafeAreaView style={styles.container}>
         <ImageBackground style={styles.background} source={require('../assets/bg.jpg')}>
 
-          <Text style={{alignSelf:'flex-start',margin:'5%',fontFamily:'Poppins-bold',fontSize:35}}>Quizes</Text>
+          <Text style={{alignSelf:'flex-start',margin:'5%',fontFamily:'Poppins-bold',fontSize:35}}>Quizzes</Text>
           <View style={styles.buttonContainer}>
             <Button icon="plus" primary="true" mode='contained-tonal'  style={{flex:1,borderRadius:10}} onPress={()=>{navigation.navigate('Create')}}>New</Button>
             <Button icon="account" primary="true" mode='contained-tonal'  style={{flex:1,borderRadius:10}} onPress={()=>{navigation.navigate('Profile',{data:quizes})}}>My Quizes</Button>
