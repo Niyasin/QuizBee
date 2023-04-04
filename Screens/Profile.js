@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView,View,StyleSheet} from "react-native";
+import { SafeAreaView,View,StyleSheet,ImageBackground, ScrollView} from "react-native";
 import {Card,Button,Text, Chip, IconButton} from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function Profile({navigation,route}){
+    
+    
+    
     const {data}=route.params;
     const [quizes,setQuizes]= useState([]);
     const [mydata,setMyData]= useState([]);
     useEffect(()=>{
         getData();
     },[])
+
 
     useEffect(()=>{
         if(mydata){
@@ -35,9 +39,11 @@ export default function Profile({navigation,route}){
       }
     return(
         <SafeAreaView style={styles.container}>
+        <ImageBackground style={styles.background} source={require('../assets/bg2.jpg')}>
+          <ScrollView style={{padding:'5%'}} showsVerticalScrollIndicator={false}>
             {quizes.map((e,i)=>{
               return(
-                <Card key={i} style={{marginBottom:15}}>
+                <Card key={i} style={{marginBottom:15}} mode="outlined" >
                   <Card.Content>
                     <View style={{display:'flex',flexDirection:'row',gap:10,justifyContent:'space-between',alignItems:'center'}}>
                         <Text variant="displaySmall" style={{fontWeight:'bold'}}>{e.name}</Text>
@@ -52,16 +58,24 @@ export default function Profile({navigation,route}){
                 </Card>
               )
             })}
+            </ScrollView>
+        </ImageBackground>
         </SafeAreaView>
     )
 }
 
 
+
 const styles = StyleSheet.create({
-    container: {
-        flex:1,
-        backgroundColor: '#fff',
-        WalignItems:'center',
-        padding:'5%',
+  container: {
+      flex: 1,
+    backgroundColor: '#fff',
+    alignItems:'center',
+  },
+  background:{
+      width:'100%',
+      height:'100%',
+      resizeMode:'repeat',
+      flex:1,
     },
-  });
+});

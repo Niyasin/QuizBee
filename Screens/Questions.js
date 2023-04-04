@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View,SafeAreaView,ScrollView,Image} from 'react-native';
+import { StyleSheet, View,SafeAreaView,ScrollView,Image, ImageBackground} from 'react-native';
 import {Button, Card,Chip,RadioButton,Text} from 'react-native-paper';
 export default function QS({quiz,close}){
     const [current,setCurrent]=useState(0);
@@ -10,10 +10,7 @@ export default function QS({quiz,close}){
     const [time,setTime]=useState(quiz.time*60);
     useEffect(()=>{
         const timer = setInterval(()=>{
-            setTime(t=>t-1);
-            if(time<0){
-                clearInterval(timer);
-            }
+            setTime(t=>t>1?t-1:setFinal(true));
         },1000);
         return ()=>{clearInterval(timer)}
     },[])
@@ -41,15 +38,19 @@ export default function QS({quiz,close}){
 
     return (
         <SafeAreaView style={styles.container}>
+            <ImageBackground source={require('../assets/bg.jpg')} style={styles.background}>
+                <View style={{padding:'5%',paddingTop:40}}>
+
             {final?<View style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center'}}>
-                <Image source={require('../assets/final.gif')} style={{width:200,height:200}}/>
-                <Text variant='displayMedium' style={{fontWeight:'bold'}}>Score : {score}</Text>
-                <Button icon='home'style={{margin:50}} mode='contained' onPress={()=>{close()}}>Back</Button>
+                <Image source={require('../assets/final.gif')} style={{width:300,height:300}}/>
+                <Text variant='displayMedium' style={{fontFamily:'Poppins-bold'}}>Score : {score}</Text>
+                <Button icon='home'style={{margin:50,borderRadius:10}} mode='contained-tonal' onPress={()=>{close()}}>Back</Button>
             </View>:<>
+            
             <View style={styles.header}>
                 <Text variant='headlineMedium' style={{fontWeight:'bold'}}>Question {current}</Text>
                 <View style={{display:'flex',flexDirection:'row',gap:10}}>
-                    <Chip>{formatTime(time)}</Chip>
+                    <Chip icon='clock'>{formatTime(time)}</Chip>
                     <Chip onPress={close}>Exit</Chip>
                 </View>
             </View>
@@ -66,34 +67,46 @@ export default function QS({quiz,close}){
                              mode='outlined'
                              onPress={()=>{ans(i,quiz.questions[current],current)}}
                              style={{
-                                 backgroundColor:visible?(quiz.questions[current].ans==i?'#74c76188':'#cc3f3f88'):'#fff'}}
-                                 >{e}</Button>
-                                 )
-                                })}
-                                <Button mode='contained' style={{marginTop:20}} onPress={()=>{ans(-1,quiz.questions[current])}}>Skip</Button>
+                                 borderColor:visible?(quiz.questions[current].ans==i?'#74c76188':'#cc3f3f88'):'#eee',
+                                 borderWidth:2,
+                                 borderRadius:10,
+                                }}
+                                >{e}</Button>
+                                )
+                            })}
+                                <Button mode='contained' style={{marginTop:20,borderRadius:10}} onPress={()=>{ans(-1,quiz.questions[current],current)}}>Skip</Button>
                 </View>
                 </>}
+        </View>
+        </ImageBackground>
         </SafeAreaView>
     )
 }
 
+  
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        backgroundColor: '#fff',
         position:'absolute',
+        alignItems:'center',
         top:0,
-        left:0,
-        zIndex:100,
         width:'100%',
         height:'100%',
-        backgroundColor: '#fff',
-        WalignItems:'center',
-        padding:'5%',
-        paddingTop:'10%',
+        left:0, 
+        zIndex:100,
     },
     header:{
         height:50,
         justifyContent:'space-between',
         flexDirection:'row',
         alignItems:'center',
-    }
+        marginBottom:20
+    },
+    background:{
+        width:'100%',
+        height:'100%',
+        resizeMode:'repeat',
+        flex:1,
+      },
   });

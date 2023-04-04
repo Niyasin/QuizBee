@@ -1,6 +1,6 @@
 import {initializeApp} from 'firebase/app'
 
-const firebaseConfig2 = {
+const firebaseConfig = {
     apiKey: "AIzaSyDbj-ns0vJqFZ0sTmMvMUSWqMBnfZGb9uU",
     authDomain: "quizbee-890d3.firebaseapp.com",
     projectId: "quizbee-890d3",
@@ -9,7 +9,7 @@ const firebaseConfig2 = {
     appId: "1:673353001437:web:31da7448429c8edbb6ae34"
 };
 
-const firebaseConfig = {
+const firebaseConfig2 = {
     apiKey: "AIzaSyDa7D1AqnUnSagvicnwuP6KjfQhpZ9p6rw",
     authDomain: "temp-8ad73.firebaseapp.com", 
     projectId: "temp-8ad73",
