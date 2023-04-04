@@ -30,7 +30,6 @@ export default function Edit({navigation,route}){
         try{
             await deleteDoc(doc(db,'quizes',quiz.id));
             await deleteLocal();
-            console.log(await getLocal());
             navigation.navigate('Home');
         }catch(e){}
     }
@@ -39,7 +38,6 @@ export default function Edit({navigation,route}){
             try{
                let ref= doc(db,'quizes',quiz.id);
                await updateDoc(ref,data)
-            console.log(data.time);
                 navigation.navigate('Home');
               }catch(e){
               }
@@ -57,7 +55,6 @@ export default function Edit({navigation,route}){
         try{
           const value = await AsyncStorage.getItem('@quizes')
           if(value !== null) {
-            console.log(value);
             return(JSON.parse(value));
           }else{
             return([]);
@@ -71,7 +68,7 @@ export default function Edit({navigation,route}){
         <ImageBackground style={styles.background} source={require('../assets/bg.jpg')}>
             <ScrollView showsVerticalScrollIndicator={false} style={{paddingHorizontal:'5%'}}>
                 <TextInput mode="outlined" label="Title" onChangeText={t=>{setTitle(t)}}  defaultValue={quiz.name} style={{marginTop:20}}/>
-                <TextInput mode="outlined" label="Total Time" keyboardType="numeric" onChangeText={t=>{setTime(t);console.log("Df");}} defaultValue={quiz.time}/>
+                <TextInput mode="outlined" label="Total Time" keyboardType="numeric" onChangeText={t=>{setTime(t)}} defaultValue={quiz.time}/>
                 <TextInput mode="outlined" label="Description" numberOfLines={10} multiline={true} onChangeText={t=>{setDesc(t)}} defaultValue={quiz.desc}/>
                 <Button mode="contained-tonal" icon='delete' style={{marginVertical:20,borderRadius:10}} onPress={()=>{remove()}}>Delete Quiz</Button>
                 <Text variant="headlineLarge" style={{paddingVertical:10,fontFamily:'Poppins-bold'}}>Questions</Text>

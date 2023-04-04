@@ -39,7 +39,6 @@ export default function Create({navigation}){
         try{
           const value = await AsyncStorage.getItem('@quizes')
           if(value !== null) {
-            console.log(value);
             return(JSON.parse(value));
           }else{
             return([]);
