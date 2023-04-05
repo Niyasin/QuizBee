@@ -1,5 +1,5 @@
-# QizBee
-QizBee is a quiz application developed with react native</br>This app usues expo for development.to install expo and react native dependencies use
+# QuizBee
+QuizBee is a quiz application developed with react native</br>This app usues expo for development.to install expo and react native dependencies use
 ```bash
 npm install packages.json
 ```
